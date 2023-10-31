@@ -4,7 +4,7 @@ import { sendText } from "../shared/msgWhatssapModels.shared.js";
 import { wellxxyCompra } from "../flows/wellxxy-compra.js";
 
 class WhatsAppService {
-  constructor() { }
+  constructor() {}
 
   async verifyToken(req, res) {
     const accessToken = "testT0ken";
@@ -24,7 +24,7 @@ class WhatsAppService {
     const value = changes["value"];
     const messageObject = value["messages"];
     const contact = value["contacts"];
-    console.log(JSON.stringify(entry, null, '\t'));
+    console.log(JSON.stringify(entry, null, "\t"));
 
     if (typeof messageObject !== "undefined") {
       const messages = messageObject[0];
