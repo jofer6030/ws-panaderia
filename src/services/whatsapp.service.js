@@ -3,6 +3,10 @@ import { sendWhatsappMsg } from "../utils/sendWhatsappMsg.util.js";
 import { sendText } from "../shared/msgWhatssapModels.shared.js";
 import { wellxxyCompra } from "../flows/wellxxy-compra.js";
 
+import { io } from "socket.io-client";
+
+const socket = io("https://qx4l1062-3000.brs.devtunnels.ms");
+
 class WhatsAppService {
   constructor() {}
 
@@ -31,6 +35,7 @@ class WhatsAppService {
       const message = statuses[0];
       const id = message["id"];
       const status = message["status"];
+      socket.emit("status", { id, status });
     }
 
     if (typeof messageObject !== "undefined") {
