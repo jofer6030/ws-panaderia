@@ -1,7 +1,4 @@
-import { sendWhatsappMsg } from "../utils/sendWhatsappMsg.util.js";
-
-import { sendText } from "../shared/msgWhatssapModels.shared.js";
-import { wellxxyCompra } from "../flows/wellxxy-compra.js";
+import { flowCompra } from "../flows/flowCompra.js";
 
 import { io } from "socket.io-client";
 
@@ -28,8 +25,6 @@ class WhatsAppService {
     const value = changes["value"];
     const statuses = value["statuses"];
     const messageObject = value["messages"];
-    const contact = value["contacts"];
-    console.log(JSON.stringify(entry, null, "\t"));
 
     if (typeof statuses !== "undefined") {
       const message = statuses[0];
@@ -39,34 +34,13 @@ class WhatsAppService {
     }
 
     if (typeof messageObject !== "undefined") {
-      const messages = messageObject[0];
+      const message = messageObject[0];
+      const contact = value["contacts"];
       const name = contact[0].profile.name;
-      const userPhoneNumber = messages["from"];
-      const infoText = this.#getInfoTextUser(messages);
-      // console.log(JSON.stringify(entry, null, '\t'));
-      // wellxxyCompra(infoText, userPhoneNumber, name);
+
+      flowCompra({ ...message, name }, socket);
     }
     res.sendStatus(200);
-  }
-
-  #getInfoTextUser(messages) {
-    const infoText = { text: "" };
-    const typeMessage = messages["type"];
-
-    if (typeMessage === "text") {
-      infoText.text = messages["text"].body;
-    }
-
-    if (typeMessage === "interactive") {
-      const interactiveObject = messages["interactive"];
-      const typeInteractive = interactiveObject["type"];
-      if (["button_reply", "list_reply"].includes(typeInteractive)) {
-        infoText.text = interactiveObject[typeInteractive].title;
-        infoText.id = interactiveObject[typeInteractive].id;
-      }
-    }
-
-    return infoText;
   }
 }
 
