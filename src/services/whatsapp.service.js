@@ -22,9 +22,16 @@ class WhatsAppService {
     const entry = req.body["entry"][0];
     const changes = entry["changes"][0];
     const value = changes["value"];
+    const statuses = value["statuses"];
     const messageObject = value["messages"];
     const contact = value["contacts"];
     console.log(JSON.stringify(entry, null, "\t"));
+
+    if (typeof statuses !== "undefined") {
+      const message = statuses[0];
+      const id = message["id"];
+      const status = message["status"];
+    }
 
     if (typeof messageObject !== "undefined") {
       const messages = messageObject[0];
