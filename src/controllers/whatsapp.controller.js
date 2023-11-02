@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-import { flowCompra } from "../flows/flowCompra";
+import { flowCompra } from "../flows/flowCompra.js";
 
 const socket = io("https://qx4l1062-3000.brs.devtunnels.ms");
 
