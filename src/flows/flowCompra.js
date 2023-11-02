@@ -1,14 +1,12 @@
-import { sendWhatsappMsg } from "../utils/sendWhatsappMsg.util.js";
-import { sendText } from "../shared/msgWhatssapModels.shared.js";
-
 import { sanitizeText } from "../utils/sanitizeText.util.js";
 import { questionToChatGpt } from "./chat-gpt.js";
-import { getMemoryConversationAll, memoryConversation } from "./history-memory.js";
 
-import ApiService from "../services/api.service.js";
+import ApiBotSellerService from "../services/api-bot-seller.service.js";
+import ApiWhatsappService from "../services/api-whatsapp.service.js";
 
 export const flowCompra = async (data, socket) => {
-  const apiService = new ApiService();
+  const apiBotSellerService = new ApiBotSellerService();
+  // const apiWhatsappService = new ApiWhatsappService();
 
   const keyWord = sanitizeText(data.text.body);
 
@@ -25,7 +23,7 @@ export const flowCompra = async (data, socket) => {
   };
 
   try {
-    const data = await apiService.createOrUpdateChat(chat);
+    const data = await apiBotSellerService.createOrUpdateChat(chat);
     // if (data.message === "Created") {
     //   socket.emit("new-chat-notification", { chat });
     // }
@@ -37,6 +35,7 @@ export const flowCompra = async (data, socket) => {
   // const responseChatGpT = await questionToChatGpt(keyWord, userPhoneNumber);
 
   // await sendWhatsappMsg(sendText(userPhoneNumber, responseChatGpT || "Lo siento, no entendi"));
+  // await apiWhatsappService.sendWhatsappText(userPhoneNumber, responseChatGpT || "Lo siento, no entendi");
   // if (
   //   (responseChatGpT && responseChatGpT.includes("😊")) ||
   //   responseChatGpT.includes("⏳") ||
@@ -51,7 +50,8 @@ export const flowCompra = async (data, socket) => {
   //   const formatResult = formatSummaryOrder + `\n- NroCel:${userPhoneNumber}`;
   //   console.log(formatResult);
 
-  //   await sendWhatsappMsg(sendText("51922545942", formatResult));
+  // await sendWhatsappMsg(sendText("51922545942", formatResult));
+  //   await apiWhatsappService.sendWhatsappText("51922545942", formatResult);
   // }
   // return;
 };
