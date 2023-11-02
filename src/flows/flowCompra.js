@@ -24,9 +24,10 @@ export const flowCompra = async (data, socket) => {
 
   try {
     const data = await apiBotSellerService.createOrUpdateChat(chat);
-    // if (data.message === "Created") {
-    //   socket.emit("new-chat-notification", { chat });
-    // }
+    if (data.message.includes("create")) {
+      const chat = data.chats[0];
+      socket.emit("new-chat-notification", chat);
+    }
     console.log(data);
   } catch (error) {
     console.log(error);
