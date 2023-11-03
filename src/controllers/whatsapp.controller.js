@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 
 import { flowCompra } from "../flows/flowCompra.js";
+import ApiBotSellerService from "../services/api-bot-seller.service.js";
 
 const socket = io("https://qx4l1062-3000.brs.devtunnels.ms", {
   transports: ["websocket"],
@@ -38,7 +39,7 @@ class WhatsAppController {
         const message = statuses[0];
         const id = message["id"];
         const status = message["status"];
-        socket.emit("status", { id, status });
+        this.#updateStatusMessage(id, status);
       }
 
       if (typeof messageObject !== "undefined") {
@@ -49,6 +50,16 @@ class WhatsAppController {
         flowCompra({ ...message, name }, socket);
       }
       res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  #updateStatusMessage = async (id, status) => {
+    const apiBotSellerService = new ApiBotSellerService();
+    try {
+      await apiBotSellerService.updateStatusMessage(id, status);
+      socket.emit("update-status-message", { id, status });
     } catch (error) {
       next(error);
     }

@@ -14,6 +14,14 @@ class ApiBotSellerService {
     const { data } = await this.#apiService.post("/chat/validation", chat);
     return data;
   }
+
+  async updateStatusMessage(id, status) {
+    const { data } = await this.#apiService.post(`/chat/update/chat`, {
+      id,
+      status,
+    });
+    return data;
+  }
 }
 
 export default ApiBotSellerService;
