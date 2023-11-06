@@ -1,12 +1,9 @@
 # Utilizar una imagen base de Node.js
-FROM node:18
+FROM node:18-alpine
 
-# ENV PORT 5000
-# ENV MY_SQL dev-env-devopsacademy-pe.chdpe1wgua0r.us-east-1.rds.amazonaws.com
-# ENV MY_SQL_USER admin
-# ENV MY_SQL_PASSWORD y360y360
-# ENV MY_SQL_DB db-bot-seller-dev
-
+ENV OPENAI_API_KEY=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
+ENV PINECONE_ENVIRONMENT=gcp-starter
+ENV PINECONE_API_KEY=fe3e721d-1284-43d9-9781-36650e27bf29
 
 # Crear y establecer el directorio de trabajo en la aplicación
 WORKDIR /usr/src/app
@@ -20,16 +17,13 @@ COPY package*.json ./
 RUN rm -rf node_modules
 RUN npm install
 
-RUN npm uninstall bcrypt
-RUN npm install bcrypt
-
 # Copiar el resto de la aplicación
 COPY . .
 # Copia el archivo de entorno de node
 COPY .env .env
 
 # Exponer el puerto en el que la aplicación se ejecutará (ajusta según tu aplicación)
-EXPOSE 80
+EXPOSE 5000
 
 # Comando para iniciar la aplicación
 # CMD ["npm", "start"]
