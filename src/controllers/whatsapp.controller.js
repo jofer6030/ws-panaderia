@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { flowCompra } from "../flows/flowCompra.js";
 import ApiBotSellerService from "../services/api-bot-seller.service.js";
 
-const socket = io("https://qx4l1062-3000.brs.devtunnels.ms", {
+const socket = io("https://botsellar.svc.2cloud.pe", {
   transports: ["websocket"],
   reconnection: true,
 });
@@ -39,8 +39,9 @@ class WhatsAppController {
         const message = statuses[0];
         const id = message["id"];
         const status = message["status"];
-        this.#updateStatusMessage(id, status);
+        // this.#updateStatusMessage(id, status);
       }
+      console.log(JSON.stringify(messageObject, null, "\t"));
 
       if (typeof messageObject !== "undefined") {
         const message = messageObject[0];
