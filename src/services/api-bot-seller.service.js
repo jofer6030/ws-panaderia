@@ -2,7 +2,7 @@ import axios from "axios";
 
 class ApiBotSellerService {
   #apiService;
-  #url = "https://bot-seller.onrender.com";
+  #url = "https://botsellar.svc.2cloud.pe";
 
   constructor() {
     this.#apiService = axios.create({
