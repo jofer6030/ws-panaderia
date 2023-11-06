@@ -39,9 +39,8 @@ class WhatsAppController {
         const message = statuses[0];
         const id = message["id"];
         const status = message["status"];
-        // this.#updateStatusMessage(id, status);
+        this.#updateStatusMessage(id, status);
       }
-      console.log(JSON.stringify(messageObject, null, "\t"));
 
       if (typeof messageObject !== "undefined") {
         const message = messageObject[0];
