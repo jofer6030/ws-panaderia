@@ -1,5 +1,5 @@
 # Utilizar una imagen base de Node.js
-FROM node:16
+FROM node:18
 
 # ENV PORT 5000
 # ENV MY_SQL dev-env-devopsacademy-pe.chdpe1wgua0r.us-east-1.rds.amazonaws.com
@@ -7,8 +7,6 @@ FROM node:16
 # ENV MY_SQL_PASSWORD y360y360
 # ENV MY_SQL_DB db-bot-seller-dev
 
-RUN nvm install 18
-RUN nvm use 18
 
 # Crear y establecer el directorio de trabajo en la aplicación
 WORKDIR /usr/src/app
