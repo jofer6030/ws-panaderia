@@ -22,6 +22,11 @@ class ApiBotSellerService {
     });
     return data;
   }
+
+  async getChatById(idChat) {
+    const { data } = await this.#apiService.get(`/chat/list/${idChat}`);
+    return data;
+  }
 }
 
 export default ApiBotSellerService;

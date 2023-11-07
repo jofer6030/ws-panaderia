@@ -5,11 +5,11 @@ import { encode } from "gpt-3-encoder";
 // import { index } from "./pinecone.js";
 import { getMemoryConversationAll } from "./history-memory.js";
 
-import { contentCompany } from './information/info.js'
+import { contentCompany } from "./information/info.js";
 
 const LIMIT_TOKENS = 4000;
 
-export const questionToChatGpt = async (question, nroCell) => {
+export const questionToChatGpt = async (dataChat) => {
   // const queryEmbedding = await new OpenAIEmbeddings({
   //   openAIApiKey: process.env["OPENAI_API_KEY"],
   // }).embedQuery(question);
@@ -29,10 +29,7 @@ export const questionToChatGpt = async (question, nroCell) => {
 
     const ND = "Lo siento, pero no lo sé";
 
-    const historyConversation =
-      getMemoryConversationAll(nroCell).length > 0
-        ? [...getMemoryConversationAll(nroCell), { role: "user", content: question }]
-        : [{ role: "user", content: question }];
+    const historyConversation = dataChat.chats[0].message.map((msg) => ({ role: msg.role, content: msg.content }));
 
     const systemContent = `
 - Rol del sistema: Ventas y Soporte Empresarial
@@ -71,7 +68,7 @@ export const questionToChatGpt = async (question, nroCell) => {
     const chatToText = historyConversation.map((message) => message.content).join("\n");
     const tokensChat = encode(chatToText).length;
     const tokensSystem = encode(systemContent).length;
-    console.log(tokensChat + tokensSystem);
+
     let data = historyConversation;
 
     for (let i = 0; i < historyConversation.length - 1; i++) {
@@ -98,7 +95,7 @@ export const questionToChatGpt = async (question, nroCell) => {
         messages,
         temperature: 0.7,
         top_p: 1,
-        max_tokens: 500
+        max_tokens: 500,
       });
       return result.choices[0].message.content;
     } catch (error) {

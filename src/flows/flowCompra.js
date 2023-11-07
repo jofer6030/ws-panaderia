@@ -6,7 +6,7 @@ import ApiWhatsappService from "../services/api-whatsapp.service.js";
 
 export const flowCompra = async (data, socket) => {
   const apiBotSellerService = new ApiBotSellerService();
-  // const apiWhatsappService = new ApiWhatsappService();
+  const apiWhatsappService = new ApiWhatsappService();
 
   const keyWord = sanitizeText(data.text.body);
 
@@ -24,40 +24,48 @@ export const flowCompra = async (data, socket) => {
 
   socket.emit("new-message", chat.message);
 
-  try {
-    const data = await apiBotSellerService.createOrUpdateChat(chat);
-    const chatInfo = data.chats[0];
+  let dataChat;
 
-    if (data.message.includes("create")) {
+  try {
+    dataChat = await apiBotSellerService.createOrUpdateChat(chat);
+    const chatInfo = dataChat.chats[0];
+
+    if (dataChat.message.includes("create")) {
       socket.emit("new-chat-notification", chatInfo);
     } else {
       socket.emit("update-last-message", chatInfo);
     }
-    console.log(data);
+    console.log(dataChat);
   } catch (error) {
     console.log(error);
   }
 
-  // const responseChatGpT = await questionToChatGpt(keyWord, userPhoneNumber);
+  if (dataChat && dataChat.status === "bot") {
+    const responseChatGpT = await questionToChatGpt(dataChat);
+    const responseToClient = responseChatGpT || "Lo siento no entendi, repita su pregunta por favor 😊";
+    const dataWS = await apiWhatsappService.sendWhatsappText(data.from, responseToClient);
 
-  // await sendWhatsappMsg(sendText(userPhoneNumber, responseChatGpT || "Lo siento, no entendi"));
-  // await apiWhatsappService.sendWhatsappText(userPhoneNumber, responseChatGpT || "Lo siento, no entendi");
-  // if (
-  //   (responseChatGpT && responseChatGpT.includes("😊")) ||
-  //   responseChatGpT.includes("⏳") ||
-  //   responseChatGpT.includes("🙏") ||
-  //   responseChatGpT.includes("Estaremos en contacto en breve, en un plazo de 10 minutos") ||
-  //   responseChatGpT.includes("10 minutos")
-  // ) {
-  //   const summaryOrder = getMemoryConversationAll(userPhoneNumber).findLast((item) => {
-  //     return item.role === "assistant" && item.content.includes("Resumen de la orden");
-  //   }).content;
-  //   const formatSummaryOrder = summaryOrder.split("\n\n").find((item) => item.includes("Resumen"));
-  //   const formatResult = formatSummaryOrder + `\n- NroCel:${userPhoneNumber}`;
-  //   console.log(formatResult);
+    const message = {
+      role: "assistant",
+      content: responseToClient,
+      timestamp: new Date().getTime(),
+      status: "",
+      id: dataWS.messages[0].id,
+    };
 
-  // await sendWhatsappMsg(sendText("51922545942", formatResult));
-  //   await apiWhatsappService.sendWhatsappText("51922545942", formatResult);
-  // }
-  // return;
+    await apiBotSellerService.createOrUpdate({ message, phone: dataChat.phone, name: dataChat.name });
+
+    socket.emit("new-message", message);
+
+    if (
+      (responseChatGpT && responseChatGpT.includes("😊")) ||
+      responseChatGpT.includes("⏳") ||
+      responseChatGpT.includes("🙏") ||
+      responseChatGpT.includes("Estaremos en contacto en breve, en un plazo de 10 minutos") ||
+      responseChatGpT.includes("10 minutos")
+    ) {
+      socket.emit("new-order-notification");
+    }
+    return;
+  }
 };
