@@ -53,13 +53,14 @@ export const flowCompra = async (data, socket) => {
       id: dataWS.messages[0].id,
     };
 
-    await apiBotSellerService.createOrUpdateChat({
+    const chatInfo = await apiBotSellerService.createOrUpdateChat({
       message,
       phone: dataChat.chats[0].phone,
       name: dataChat.chats[0].name,
     });
 
     socket.emit("new-message", message);
+    socket.emit("update-last-message", chatInfo.chats[0]);
 
     if (
       (responseChatGpT && responseChatGpT.includes("😊")) ||
