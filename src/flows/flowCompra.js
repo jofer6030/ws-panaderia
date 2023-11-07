@@ -22,7 +22,7 @@ export const flowCompra = async (data, socket) => {
     },
   };
 
-  socket.emit("new-message", chat.message);
+  socket.emit("new-message", { info: chat.message, phone });
 
   let dataChat;
 
@@ -59,7 +59,7 @@ export const flowCompra = async (data, socket) => {
       name: dataChat.chats[0].name,
     });
 
-    socket.emit("new-message", message);
+    socket.emit("new-message", { info: message, phone: chatInfo.chats[0].phone });
     socket.emit("update-last-message", chatInfo.chats[0]);
 
     if (

@@ -39,7 +39,7 @@ class WhatsAppController {
         const message = statuses[0];
         const id = message["id"];
         const status = message["status"];
-        this.#updateStatusMessage(id, status);
+        this.#updateStatusMessage(id, status, next);
       }
 
       if (typeof messageObject !== "undefined") {
@@ -61,7 +61,7 @@ class WhatsAppController {
       await apiBotSellerService.updateStatusMessage(id, status);
       socket.emit("update-status-message", { id, status });
     } catch (error) {
-      next(error);
+      console.log(error);
     }
   };
 }
