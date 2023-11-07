@@ -42,7 +42,7 @@ export const flowCompra = async (data, socket) => {
 
   console.log("paso 1");
 
-  if (dataChat && dataChat.status === "bot") {
+  if (dataChat && dataChat.chats[0].status === "bot") {
     console.log("paso 2");
     const responseChatGpT = await questionToChatGpt(dataChat);
     const responseToClient = responseChatGpT || "Lo siento no entendi, repita su pregunta por favor 😊";
