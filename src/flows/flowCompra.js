@@ -21,7 +21,7 @@ export const flowCompra = async (data, socket) => {
       timestamp: data.timestamp,
     },
   };
-
+  socket.emit("new-message", message);
   try {
     const data = await apiBotSellerService.createOrUpdateChat(chat);
     const chatInfo = data.chats[0];
