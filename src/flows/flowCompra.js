@@ -53,7 +53,7 @@ export const flowCompra = async (data, socket) => {
       id: dataWS.messages[0].id,
     };
 
-    await apiBotSellerService.createOrUpdate({ message, phone: dataChat.phone, name: dataChat.name });
+    await apiBotSellerService.createOrUpdateChat({ message, phone: dataChat.phone, name: dataChat.name });
 
     socket.emit("new-message", message);
 
