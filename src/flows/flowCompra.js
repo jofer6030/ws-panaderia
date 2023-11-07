@@ -22,7 +22,7 @@ export const flowCompra = async (data, socket) => {
     },
   };
 
-  socket.emit("new-message", { info: chat.message, phone });
+  socket.emit("new-message", { info: chat.message, phone: chat.phone });
 
   let dataChat;
 
