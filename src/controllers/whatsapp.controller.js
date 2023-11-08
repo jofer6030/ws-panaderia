@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { flowCompra } from "../flows/flowCompra.js";
 import ApiBotSellerService from "../services/api-bot-seller.service.js";
 
-const socket = io("https://botsellar.svc.2cloud.pe", {
+const socket = io(`${process.env.URL_BACKEND}`, {
   transports: ["websocket"],
   reconnection: true,
 });

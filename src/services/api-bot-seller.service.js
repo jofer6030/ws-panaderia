@@ -2,8 +2,8 @@ import axios from "axios";
 
 class ApiBotSellerService {
   #apiService;
-  #url = "https://botsellar.svc.2cloud.pe";
-
+  #url = `${process.env.URL_BACKEND}`;
+  
   constructor() {
     this.#apiService = axios.create({
       baseURL: this.#url,
