@@ -47,6 +47,11 @@ class WhatsAppController {
         const contact = value["contacts"];
         const name = contact[0].profile.name;
 
+        if (typeof message.image !== "undefined") {
+          console.log(message);
+          return res.sendStatus(200);
+        }
+
         flowCompra({ ...message, name }, socket);
       }
       res.sendStatus(200);
