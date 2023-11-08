@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REGISTRY: 
+  DOCKER_REGISTRY: 596059741778.dkr.ecr.us-east-1.amazonaws.com/web-hook-dev
   AWS_DEFAULT_REGION: us-east-1
   DOCKER_HOST: tcp://docker:2375
 
