@@ -5,7 +5,7 @@ import { errorHandler } from "./handlers/error.handler.js";
 
 class Server {
   #app = express();
-  #port = process.env.PORT || 3000;
+  #port = process.env.PORT || 8000;
   #routesApp = new RoutesApp();
 
   constructor() {

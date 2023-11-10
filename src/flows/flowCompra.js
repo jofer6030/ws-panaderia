@@ -8,7 +8,9 @@ export const flowCompra = async (data, socket) => {
   const apiBotSellerService = new ApiBotSellerService();
   const apiWhatsappService = new ApiWhatsappService();
 
-  const keyWord = sanitizeText(data.text.body);
+  const dataType = data.text || data.image || data.audio;
+
+  const content = sanitizeText(dataType.body || dataType.caption || "");
 
   const chat = {
     phone: data.from,
@@ -16,7 +18,9 @@ export const flowCompra = async (data, socket) => {
     message: {
       id: data.id,
       role: "user",
-      content: keyWord,
+      type: data.type,
+      idMedia: dataType.id || "",
+      content,
       status: "",
       timestamp: data.timestamp,
     },
@@ -35,12 +39,11 @@ export const flowCompra = async (data, socket) => {
     } else {
       socket.emit("update-last-message", chatInfo);
     }
-    console.log(dataChat);
   } catch (error) {
     console.log(error);
   }
 
-  if (dataChat && dataChat.chats[0].status === "bot") {
+  if (dataChat && dataChat.chats[0].status === "bot" && data.type === "text") {
     const responseChatGpT = await questionToChatGpt(dataChat);
     const responseToClient = responseChatGpT || "Lo siento no entendi, repita su pregunta por favor 😊";
     const dataWS = await apiWhatsappService.sendWhatsappText(data.from, responseToClient);
@@ -51,6 +54,8 @@ export const flowCompra = async (data, socket) => {
       timestamp: new Date().getTime(),
       status: "",
       id: dataWS.messages[0].id,
+      type: "text",
+      idMedia: "",
     };
 
     const chatInfo = await apiBotSellerService.createOrUpdateChat({

@@ -1,5 +1,8 @@
 import { io } from "socket.io-client";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import { flowCompra } from "../flows/flowCompra.js";
 import ApiBotSellerService from "../services/api-bot-seller.service.js";
 
@@ -46,11 +49,6 @@ class WhatsAppController {
         const message = messageObject[0];
         const contact = value["contacts"];
         const name = contact[0].profile.name;
-
-        if (typeof message.image !== "undefined") {
-          console.log(message);
-          return res.sendStatus(200);
-        }
 
         flowCompra({ ...message, name }, socket);
       }
