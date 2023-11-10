@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import { envs } from "../../configEnv.js";
 class ApiBotSellerService {
   #apiService;
-  #url = `${process.env.URL_BACKEND}`;
+  #url = `${envs.URL_BACKEND}`;
   
   constructor() {
     this.#apiService = axios.create({
