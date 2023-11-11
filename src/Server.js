@@ -7,7 +7,7 @@ import { envs } from "../configEnv.js";
 
 class Server {
   #app = express();
-  #port = envs.OPENAI_API_KEY;
+  #port = envs.PORT;
   #routesApp = new RoutesApp();
 
   constructor() {
