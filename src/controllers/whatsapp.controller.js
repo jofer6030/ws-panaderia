@@ -5,8 +5,9 @@ dotenv.config();
 
 import { flowCompra } from "../flows/flowCompra.js";
 import ApiBotSellerService from "../services/api-bot-seller.service.js";
+import { envs } from "../../configEnv.js";
 
-const socket = io(`${process.env.URL_BACKEND}`, {
+const socket = io(`${envs.URL_BACKEND}`, {
   transports: ["websocket"],
   reconnection: true,
 });

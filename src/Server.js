@@ -3,9 +3,11 @@ import express from "express";
 import RoutesApp from "./routers/index.routes.js";
 import { errorHandler } from "./handlers/error.handler.js";
 
+import { envs } from "../configEnv.js";
+
 class Server {
   #app = express();
-  #port = process.env.PORT || 8000;
+  #port = envs.OPENAI_API_KEY;
   #routesApp = new RoutesApp();
 
   constructor() {
