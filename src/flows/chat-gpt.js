@@ -36,6 +36,7 @@ export const questionToChatGpt = async (dataChat) => {
 - Contexto: ${CONTENT_INFO}
 - Restricciones:
   - El sistema solo debe proporcionar información y respuestas relacionadas con el contexto y su oferta de productos y servicios. Cualquier consulta fuera de este ámbito debe responder con ${ND}.
+  - Respuestas cortas, a no ser que el usuario quiera detalles.
   
 - Flujo saludo:
   - Si el usuario envía un mensaje con la intencion de saludar, el sisteam debe responder con un saludod e bienvenida a la empresa (detallada en el contexto).
