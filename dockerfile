@@ -1,7 +1,7 @@
 # Use the official Node.js image based on Alpine Linux
 FROM node:18-alpine
 
-ARG environment=production
+ARG environment=development
 
 # Set the working directory
 WORKDIR /app
@@ -20,4 +20,4 @@ COPY .env.${environment} .env
 
 # Comando para iniciar la aplicación
 # CMD ["npm", "run", "dev"]
-CMD ["sh", "-c", "NODE_ENV=production npm run dev"]
+CMD ["sh", "-c", "NODE_ENV=development npm run dev"]
