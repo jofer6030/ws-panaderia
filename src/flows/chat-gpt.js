@@ -92,7 +92,7 @@ export const questionToChatGpt = async (dataChat) => {
       const result = await new ChatOpenAI({
         openAIApiKey: process.env["OPENAI_API_KEY"],
       }).completionWithRetry({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4 turbo",
         messages,
         temperature: 0.7,
         top_p: 1,
