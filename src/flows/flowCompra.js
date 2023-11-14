@@ -67,14 +67,16 @@ export const flowCompra = async (data, socket) => {
     socket.emit("new-message", { info: message, phone: chatInfo.chats[0].phone });
     socket.emit("update-last-message", chatInfo.chats[0]);
 
-    if (
-      (responseChatGpT && responseChatGpT.includes("😊")) ||
-      responseChatGpT.includes("⏳") ||
-      responseChatGpT.includes("🙏") ||
-      responseChatGpT.includes("Estaremos en contacto en breve, en un plazo de 10 minutos") ||
-      responseChatGpT.includes("10 minutos")
-    ) {
-      socket.emit("new-order-notification");
+    if (responseChatGpT) {
+      if (
+        responseChatGpT.includes("😊") ||
+        responseChatGpT.includes("⏳") ||
+        responseChatGpT.includes("🙏") ||
+        responseChatGpT.includes("Estaremos en contacto en breve, en un plazo de 10 minutos") ||
+        responseChatGpT.includes("10 minutos")
+      ) {
+        socket.emit("new-order-notification");
+      }
     }
     return;
   }

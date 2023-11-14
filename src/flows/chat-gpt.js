@@ -6,6 +6,7 @@ import { encode } from "gpt-3-encoder";
 import { getMemoryConversationAll } from "./history-memory.js";
 
 import { contentCompany } from "./information/info.js";
+import { envs } from "../../configEnv.js";
 
 const LIMIT_TOKENS = 4000;
 
@@ -90,7 +91,7 @@ export const questionToChatGpt = async (dataChat) => {
 
     try {
       const result = await new ChatOpenAI({
-        openAIApiKey: process.env["OPENAI_API_KEY"],
+        openAIApiKey: envs.OPENAI_API_KEY,
       }).completionWithRetry({
         model: "gpt-3.5-turbo",
         messages,
